@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+    <!-- Header -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-8 w-8 bg-green-600 rounded-lg flex items-center justify-center">
+                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <span class="ml-3 text-xl font-semibold text-gray-900">Quiz Results</span>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600">Welcome, <%= user.username %></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Score Summary -->
+        <div class="bg-white rounded-lg shadow-lg mb-8">
+            <div class="px-6 py-8 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-t-lg text-center">
+                <div class="text-6xl font-bold mb-2"><%= percentage %>%</div>
+                <h1 class="text-2xl font-bold mb-2">Quiz Completed!</h1>
+                <p class="text-green-100">You scored <%= score %> out of <%= totalQuestions %> questions correctly</p>
+            </div>
+            
+            <!-- Score Details -->
+            <div class="p-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="text-2xl font-bold text-green-600"><%= score %></div>
+                        <div class="text-sm text-gray-600">Correct</div>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <div class="text-2xl font-bold text-red-600"><%= totalQuestions - score %></div>
+                        <div class="text-sm text-gray-600">Incorrect</div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="text-2xl font-bold text-blue-600"><%= totalQuestions %></div>
+                        <div class="text-sm text-gray-600">Total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Message -->
+        <div class="mb-8">
+            <% if (percentage >= 80) { %>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex">
+                        <svg class="h-5 w-5 text-green-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-green-800">Excellent Performance! 🎉</h3>
+                            <p class="mt-1 text-sm text-green-700">Outstanding work! You demonstrated excellent knowledge in this quiz.</p>
+                        </div>
+                    </div>
+                </div>
+            <% } else if (percentage >= 60) { %>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex">
+                        <svg class="h-5 w-5 text-yellow-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-yellow-800">Good Job! 👍</h3>
+                            <p class="mt-1 text-sm text-yellow-700">Nice work! You passed the quiz. Keep studying to improve even more.</p>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div class="flex">
+                        <svg class="h-5 w-5 text-red-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">Keep Studying! 📚</h3>
+                            <p class="mt-1 text-sm text-red-700">Don't give up! Review the questions below and try again to improve your score.</p>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Detailed Results -->
+        <div class="bg-white rounded-lg shadow-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Detailed Results</h2>
+                <p class="text-sm text-gray-500">Review your answers and see the correct responses</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="space-y-6">
+                    <% results.forEach((result, index) => { %>
+                        <div class="border border-gray-200 rounded-lg p-4 <%= result.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200' %>">
+                            <!-- Question -->
+                            <div class="flex items-start space-x-3 mb-4">
+                                <div class="flex-shrink-0 w-8 h-8 <%= result.isCorrect ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' %> rounded-full flex items-center justify-center font-semibold">
+                                    <% if (result.isCorrect) { %>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    <% } else { %>
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    <% } %>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-base font-medium text-gray-900">
+                                        <%= index + 1 %>. <%= result.question %>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- Options -->
+                            <div class="ml-11 space-y-2">
+                                <% result.options.forEach((option, optionIndex) => { %>
+                                    <div class="flex items-center space-x-2">
+                                        <% if (optionIndex === result.correctAnswer) { %>
+                                            <!-- Correct Answer -->
+                                            <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">
+                                                <%= String.fromCharCode(65 + optionIndex) %>. <%= option %>
+                                                <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        <% } else if (optionIndex === result.userAnswer) { %>
+                                            <!-- User's Wrong Answer -->
+                                            <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">
+                                                <%= String.fromCharCode(65 + optionIndex) %>. <%= option %>
+                                                <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        <% } else { %>
+                                            <!-- Other Options -->
+                                            <span class="text-sm text-gray-600">
+                                                <%= String.fromCharCode(65 + optionIndex) %>. <%= option %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                <% }) %>
+                            </div>
+
+                            <!-- Result Message -->
+                            <div class="mt-3 ml-11">
+                                <% if (result.isCorrect) { %>
+                                    <p class="text-sm text-green-700 font-medium">✓ Correct!</p>
+                                <% } else { %>
+                                    <p class="text-sm text-red-700">
+                                        <span class="font-medium">✗ Incorrect.</span> 
+                                        The correct answer is <strong><%= String.fromCharCode(65 + result.correctAnswer) %>. <%= result.options[result.correctAnswer] %></strong>
+                                    </p>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex justify-between">
+            <a href="/quiz" class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Quiz Home
+            </a>
+            <a href="/start-quiz" class="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Take Quiz Again
+            </a>
+        </div>
+    </div>
+</body>
+</html> 

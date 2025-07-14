@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Toastify CSS and JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+/* Force Toastify close (cross) icon to be white */
+.toastify .toast-close, .toastify .toast-close svg, .toastify .toast-close::before, .toastify .toast-close::after {
+  color: #fff !important;
+  fill: #fff !important;
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+.toastify .toast-close svg {
+  stroke: #fff !important;
+}
+</style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                      
+                        <span class="ml-3 text-xl font-semibold text-gray-900">Admin Dashboard</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
+                            <svg class="h-5 w-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900"><%= user.username %></p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                    </div>
+                    <a href="/logout" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Logout
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <!-- Welcome Section -->
+            <div class="bg-white overflow-hidden shadow-xl rounded-lg mb-8">
+                <div class="px-6 py-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+                    <h1 class="text-3xl font-bold">Welcome back, <%= user.username %>!</h1>
+                    <p class="mt-2 text-blue-100">Manage your quiz application from this dashboard</p>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Total Users -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="h-8 w-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Users</dt>
+                                    <dd class="text-lg font-medium text-gray-900"><%= totalUsers %></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Questions -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="h-8 w-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Questions</dt>
+                                    <dd class="text-lg font-medium text-gray-900"><%= questions.length %></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div class="h-8 w-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                    <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">System Status</dt>
+                                    <dd class="text-lg font-medium text-green-600">Online</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Question Form -->
+            <div class="bg-white shadow rounded-lg mb-8">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Add New Question</h3>
+                    <p class="mt-1 text-sm text-gray-500">Create a new quiz question with 4 multiple choice options</p>
+                </div>
+                <div class="px-6 py-6">
+                    <form action="/create-question" method="POST" class="space-y-6">
+                        <div>
+                            <label for="question" class="block text-sm font-medium text-gray-700">Question</label>
+                            <textarea name="question" id="question" rows="3" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="Enter your question here..."></textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="option1" class="block text-sm font-medium text-gray-700">Option 1</label>
+                                <input type="text" name="option1" id="option1" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="First option">
+                            </div>
+                            <div>
+                                <label for="option2" class="block text-sm font-medium text-gray-700">Option 2</label>
+                                <input type="text" name="option2" id="option2" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="Second option">
+                            </div>
+                            <div>
+                                <label for="option3" class="block text-sm font-medium text-gray-700">Option 3</label>
+                                <input type="text" name="option3" id="option3" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="Third option">
+                            </div>
+                            <div>
+                                <label for="option4" class="block text-sm font-medium text-gray-700">Option 4</label>
+                                <input type="text" name="option4" id="option4" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="Fourth option">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="correctAnswer" class="block text-sm font-medium text-gray-700">Correct Answer</label>
+                                <select name="correctAnswer" id="correctAnswer" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3">
+                                    <option value="">Select correct option</option>
+                                    <option value="0">Option 1</option>
+                                    <option value="1">Option 2</option>
+                                    <option value="2">Option 3</option>
+                                    <option value="3">Option 4</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                                <input type="text" name="category" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-3" placeholder="General Knowledge" value="General Knowledge">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                                Add Question
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+<!-- Send Email Section -->
+<div class="bg-white shadow rounded-lg mb-8">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">Send Email</h3>
+    <p class="mt-1 text-sm text-gray-500">Send an email to any user or yourself</p>
+  </div>
+  <div class="px-6 py-6">
+    <form action="/send-email" method="POST" class="space-y-6">
+      <div>
+        <label for="to" class="block text-sm font-medium text-gray-700">To (Email Address)</label>
+        <input type="email" name="to" id="to" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-3" placeholder="recipient@example.com">
+      </div>
+   
+      <div class="flex justify-end">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+          Send Invite
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+            <!-- Questions Management -->
+            <div class="bg-white shadow rounded-lg">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Manage Questions</h3>
+                    <p class="mt-1 text-sm text-gray-500">View and manage all quiz questions</p>
+                </div>
+                <div class="px-6 py-6">
+                    <% if (questions.length === 0) { %>
+                        <div class="text-center text-gray-500 py-8">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No questions yet</h3>
+                            <p class="mt-1 text-sm text-gray-500">Get started by creating your first quiz question above.</p>
+                        </div>
+                    <% } else { %>
+                        <div class="space-y-4">
+                            <% questions.forEach((question, index) => { %>
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <div class="flex justify-between items-start">
+                                        <div class="flex-1">
+                                            <h4 class="text-lg font-medium text-gray-900 mb-2">
+                                                <%= index + 1 %>. <%= question.question %>
+                                            </h4>
+                                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                                <% question.options.forEach((option, optIndex) => { %>
+                                                    <div class="flex items-center space-x-2">
+                                                        <span class="text-sm <%= question.correctAnswer === optIndex ? 'text-green-600 font-medium' : 'text-gray-600' %>">
+                                                          <%= optIndex + 1 %>. <%= option %>
+                                                            <% if (question.correctAnswer === optIndex) { %>
+                                                                <span class="text-green-600">✓</span>
+                                                            <% } %>
+                                                        </span>
+                                                    </div>
+                                                <% }) %>
+                                            </div>
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span>Category: <%= question.category %></span>
+                                                <span>Created by: <%= user.username %></span>
+                                                <span>Date: <%= new Date(question.createdAt).toLocaleDateString() %></span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4 flex space-x-2">
+                                            <form action="/delete-question/<%= question._id %>" method="POST" class="inline">
+                                                <button type="submit" class="text-red-600 hover:text-red-700 p-2" title="Delete">
+                                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                            <button type="button" class="text-blue-600 hover:text-blue-700 p-2" title="Edit" onclick="showEditForm('<%= question._id %>')">
+                                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2a2 2 0 00-2 2v2z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="edit-form-<%= question._id %>" class="hidden mt-4">
+                                    <form action="/update-question/<%= question._id %>" method="POST" class="space-y-2">
+                                        <input type="text" name="question" value="<%= question.question %>" class="w-full border p-2 rounded" required>
+                                        <% question.options.forEach((option, optIndex) => { %>
+                                            <input type="text" name="option<%= optIndex+1 %>" value="<%= option %>" class="w-full border p-2 rounded" required>
+                                        <% }) %>
+                                        <select name="correctAnswer" class="w-full border p-2 rounded" required>
+                                            <% question.options.forEach((option, optIndex) => { %>
+                                                <option value="<%= optIndex %>" <%= question.correctAnswer === optIndex ? 'selected' : '' %>>Option <%= optIndex+1 %></option>
+                                            <% }) %>
+                                        </select>
+                                        <input type="text" name="category" value="<%= question.category %>" class="w-full border p-2 rounded">
+                                        <div class="flex space-x-2">
+                                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+                                            <button type="button" class="bg-gray-400 text-white px-4 py-2 rounded" onclick="hideEditForm('<%= question._id %>')">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="mt-10 border-t border-gray-200 pt-8 pb-10">
+                    <div class="bg-white p-6 px-6 mx-auto">
+                      <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Invite Users to Quiz</h2>
+                      </div>
+                  
+                      <form action="/send-bulk-invite" method="POST" id="emailForm">
+                        <!-- Select All Checkbox -->
+                        <div class="mb-3 pb-2 border-b border-gray-100 flex justify-between items-center">
+                          <label class="flex items-center space-x-2 text-sm text-gray-600">
+                            <input type="checkbox" id="selectAll" class="rounded">
+                            <span>Select All</span>
+                          </label>
+                          <span id="selectedCount" class="text-xs text-blue-600 font-medium">0 selected</span>
+                        </div>
+                        
+                        <ul id="emailList" class="divide-y divide-gray-200 mb-4">
+                          <% (emails || []).forEach((email, index) => { %>
+                            <li class="py-2 flex items-center space-x-2 text-sm text-gray-700">
+                              <input type="checkbox" class="email-check">
+                              <input type="text" value="<%= email %>" class=" editable-email focus:outline-none focus:ring-0 focus:border-none    px-2 py-1 text-gray-800 w-full" />
+                              <button type="button" onclick="deleteEmail('<%= email %>')" class="text-red-500 hover:text-red-700 text-xs ml-2">Delete</button>
+                            </li>
+                          <% }) %>
+                        </ul>
+                        
+                        <!-- Input to add new email -->
+                        <div class="flex mb-4 gap-2">
+                          <input id="newEmail" type="email" placeholder="Add email" class="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                          <button type="button" onclick="addEmail()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add</button>
+                        </div>
+                  
+                        <button type="submit" class="w-full max-w-md bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-sm font-semibold py-3 rounded-lg shadow-md transition duration-300">
+                          Complete Quiz & Send Invites
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  
+                
+            </div>
+        </div>
+    </div>
+</body>
+  <script>
+    const emailList = document.getElementById('emailList');
+    const form = document.getElementById('emailForm');
+    const selectAll = document.getElementById('selectAll');
+
+    // Helper function for consistent toast notifications
+    function showToast(message, type = 'error') {
+      const colors = {
+        success: '#4caf50',
+        error: '#f44336',
+        warning: '#ff9800',
+        info: '#2196f3'
+      };
+      
+      Toastify({
+        text: message,
+        duration: 3000,
+        gravity: 'top',
+        position: 'center',
+        backgroundColor: colors[type],
+        stopOnFocus: true,
+        close: true,
+        style: {
+          borderRadius: '8px',
+          fontSize: '14px',
+          fontWeight: '500'
+        }
+      }).showToast();
+    }
+  
+    async function addEmail() {
+      const input = document.getElementById('newEmail');
+      const email = input.value.trim();
+      if (!email) return;
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return;
+      }
+  
+      try {
+        const response = await fetch('/add-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          const li = document.createElement('li');
+          li.className = "py-2 flex items-center space-x-2 text-sm text-gray-700";
+          
+          li.innerHTML = `
+            <input type="checkbox" class="email-check">
+            <input type="text" value="${email}" class="editable-email px-2 py-1 text-gray-800 w-full" />
+            <button type="button" onclick="deleteEmail('${email}')" class="text-red-500 hover:text-red-700 text-xs ml-2">Delete</button>
+          `;
+          emailList.appendChild(li);
+          input.value = '';
+          
+          // Update the select all checkbox state
+          updateSelectAllState();
+          showToast('Email added successfully!', 'success');
+        } else {
+          showToast(result.message || 'Failed to add email', 'error');
+        }
+              } catch (error) {
+          console.error('Error adding email:', error);
+          showToast('Failed to add email', 'error');
+        }
+    }
+  
+    async function deleteEmail(email) {
+    
+      
+      try {
+        const response = await fetch('/delete-email', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Find and remove the email from the DOM
+          const emailInputs = document.querySelectorAll('.editable-email');
+          emailInputs.forEach(input => {
+            if (input.value === email) {
+              input.closest('li').remove();
+            }
+          });
+          
+          // Update the select all checkbox state
+          updateSelectAllState();
+          showToast('Email deleted successfully!', 'success');
+        } else {
+          showToast(result.message || 'Failed to delete email', 'error');
+        }
+              } catch (error) {
+          console.error('Error deleting email:', error);
+          showToast('Failed to delete email', 'error');
+        }
+    }
+  
+    // Select All functionality
+    selectAll.addEventListener('change', function() {
+      const checkboxes = document.querySelectorAll('.email-check');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+    });
+  
+    // Update Select All state when individual checkboxes change
+    function updateSelectAllState() {
+      const checkboxes = document.querySelectorAll('.email-check');
+      const checkedCount = document.querySelectorAll('.email-check:checked').length;
+      const selectedCountElement = document.getElementById('selectedCount');
+      
+      // Update the count display
+      selectedCountElement.textContent = `${checkedCount} selected`;
+      
+      if (checkedCount === 0) {
+        selectAll.indeterminate = false;
+        selectAll.checked = false;
+      } else if (checkedCount === checkboxes.length) {
+        selectAll.indeterminate = false;
+        selectAll.checked = true;
+      } else {
+        selectAll.indeterminate = true;
+        selectAll.checked = false;
+      }
+    }
+  
+    // Add event listener to existing and future checkboxes
+    document.addEventListener('change', function(e) {
+      if (e.target.classList.contains('email-check')) {
+        updateSelectAllState();
+      }
+    });
+  
+    // Initialize the select all state
+    updateSelectAllState();
+  
+        form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent default form submission
+      
+      const checkedEmails = [];
+      const checkboxes = document.querySelectorAll('.email-check');
+
+      checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          const emailInput = checkbox.nextElementSibling;
+          if (emailInput && emailInput.value.trim()) {
+            const email = emailInput.value.trim();
+            // Validate email before adding to the list
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(email)) {
+              checkedEmails.push(email);
+            } else {
+              showToast(`Invalid email format: ${email}`, 'error');
+              return;
+            }
+          }
+        }
+      });
+      
+      // Check if any emails are selected
+      if (checkedEmails.length === 0) {
+        Toastify({
+          text: 'Please select at least one valid email to send invites to.',
+          duration: 3000,
+          gravity: 'top',
+          position: 'center',
+          backgroundColor: '#f44336',
+          stopOnFocus: true,
+        }).showToast();
+        return;
+      }
+      
+      console.log('Selected emails:', checkedEmails); // Debug log
+      
+      // Show loading state
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = `Sending to ${checkedEmails.length} email(s)...`;
+      submitButton.disabled = true;
+
+      // Clear previous hidden inputs
+      document.querySelectorAll('input[name="emails"]').forEach(e => e.remove());
+
+      // Append selected emails as hidden inputs
+      checkedEmails.forEach(email => {
+        const hidden = document.createElement('input');
+        hidden.type = 'hidden';
+        hidden.name = 'emails';
+        hidden.value = email;
+        form.appendChild(hidden);
+      });
+      
+      // Now submit the form
+      form.submit();
+    });
+  </script>
+  <script>
+function showEditForm(id) {
+    document.getElementById('edit-form-' + id).classList.remove('hidden');
+}
+function hideEditForm(id) {
+    document.getElementById('edit-form-' + id).classList.add('hidden');
+}
+</script>
+  <script>
+// Toastify helper
+function showToast(message, type = 'info') {
+  const colors = {
+    success: '#4caf50',
+    error: '#f44336',
+    warning: '#ff9800',
+    info: '#2196f3'
+  };
+  Toastify({
+    text: message,
+    duration: 3000,
+    gravity: 'top',
+    position: 'center',
+    backgroundColor: colors[type],
+    stopOnFocus: true,
+    close: true,
+    style: {
+      borderRadius: '8px',
+      fontSize: '14px',
+      fontWeight: '500'
+    }
+  }).showToast();
+}
+
+// Attach to all edit forms
+const editForms = document.querySelectorAll('form[action^="/update-question/"]');
+editForms.forEach(form => {
+  form.addEventListener('submit', function(e) {
+    showToast('Updating question...', 'info');
+  });
+});
+
+// Attach to all edit cancel buttons
+const cancelButtons = document.querySelectorAll('button[onclick^="hideEditForm("]');
+cancelButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    showToast('Edit cancelled', 'warning');
+  });
+});
+
+// Attach to add question form
+const addQuestionForm = document.querySelector('form[action="/create-question"]');
+if (addQuestionForm) {
+  addQuestionForm.addEventListener('submit', function(e) {
+    showToast('Creating question...', 'info');
+  });
+}
+</script>
+  <script>
+function showToast(message, type = 'success') {
+  const colors = {
+    success: '#4caf50',
+    error: '#f44336',
+    info: '#2196f3'
+  };
+  Toastify({
+    text: message,
+    duration: 2000,
+    gravity: 'top',
+    position: 'center',
+    backgroundColor: colors[type] || '#2196f3',
+    close: true
+  }).showToast();
+}
+
+// CREATE QUESTION
+const createForm = document.querySelector('form[action="/create-question"]');
+if (createForm) {
+  createForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(createForm);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch('/create-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (result.success) {
+        showToast(result.message, 'success');
+        setTimeout(() => window.location.href = '/dashboard', 1500);
+      } else {
+        showToast(result.message, 'error');
+      }
+    } catch {
+      showToast('Failed to create question', 'error');
+    }
+  });
+}
+
+// UPDATE QUESTION
+const updateForms = document.querySelectorAll('form[action^="/update-question/"]');
+updateForms.forEach(form => {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (result.success) {
+        showToast(result.message, 'success');
+        setTimeout(() => window.location.href = '/dashboard', 1500);
+      } else {
+        showToast(result.message, 'error');
+      }
+    } catch {
+      showToast('Failed to update question', 'error');
+    }
+  });
+});
+
+// DELETE QUESTION
+const deleteForms = document.querySelectorAll('form[action^="/delete-question/"]');
+deleteForms.forEach(form => {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const result = await res.json();
+      if (result.success) {
+        showToast(result.message, 'success');
+        setTimeout(() => window.location.href = '/dashboard', 1500);
+      } else {
+        showToast(result.message, 'error');
+      }
+    } catch {
+      showToast('Failed to delete question', 'error');
+    }
+  });
+});
+</script>
+  
+</html>

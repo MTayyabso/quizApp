@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <!-- Header -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <span class="ml-3 text-xl font-semibold text-gray-900">Quiz Time</span>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600">Welcome, <%= user.username %></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <% if (questions.length === 0) { %>
+            <!-- No Questions Available -->
+            <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">No Questions Available</h2>
+                <p class="text-gray-600 mb-6">There are no quiz questions available at the moment. Please contact the administrator.</p>
+                <a href="/quiz" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Quiz Home
+                </a>
+            </div>
+        <% } else { %>
+            <!-- Quiz Form -->
+            <div class="bg-white rounded-lg shadow-lg">
+                <!-- Header -->
+                <div class="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-lg">
+                    <h1 class="text-2xl font-bold">Quiz Questions</h1>
+                    <p class="text-blue-100">Answer all questions and submit to see your score</p>
+                </div>
+
+                <!-- Quiz Form -->
+                <form action="/submit-quiz" method="POST" class="p-6">
+                    <div class="space-y-8">
+                        <% questions.forEach((question, index) => { %>
+                            <div class="border-b border-gray-200 pb-8 last:border-b-0">
+                                <!-- Question Number and Text -->
+                                <div class="flex items-start space-x-3 mb-4">
+                                    <div class="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-semibold">
+                                        <%= index + 1 %>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-medium text-gray-900 leading-6">
+                                            <%= question.question %>
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <!-- Options -->
+                                <div class="ml-11 space-y-3">
+                                    <% question.options.forEach((option, optionIndex) => { %>
+                                        <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <input type="radio" name="<%= question._id %>" value="<%= optionIndex %>" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                            <span class="ml-3 text-gray-700">
+                                                <span class="font-medium text-blue-600"><%= String.fromCharCode(65 + optionIndex) %>.</span>
+                                                <%= option %>
+                                            </span>
+                                        </label>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-8 flex justify-between items-center">
+                        <a href="/quiz" class="text-gray-600 hover:text-gray-800 transition-colors">
+                            ← Back to Quiz Home
+                        </a>
+                        <button type="submit" class="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition-all transform hover:scale-105 shadow-lg">
+                            Submit Quiz
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quiz Info -->
+            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div class="flex">
+                    <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">Quiz Instructions</h3>
+                        <div class="mt-1 text-sm text-blue-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Total Questions: <%= questions.length %></li>
+                                <li>Each correct answer gives you 1 point</li>
+                                <li>You must answer all questions before submitting</li>
+                                <li>Review your answers before submitting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html> 
