@@ -7,9 +7,11 @@ const emailModel = require("./models/emailModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const path = require("path");
 require("dotenv").config();
 
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -332,5 +334,6 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-module.exports = app;
-
+app.listen(3000, () => {
+    console.log(" Server running at http://localhost:3000");
+});
