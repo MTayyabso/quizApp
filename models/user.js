@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(`mongodb://127.0.0.1:27017/authtestapp`);
+// mongoose.connect(`mongodb+srv://mtayyabsohail8:fLtRyZJgCrBtUoQL@quizapp.79wyyev.mongodb.net/?`);
+mongoose.connect(`mongodb+srv://mtayyabsohail8:fLtRyZJgCrBtUoQL@quizapp.79wyyev.mongodb.net/?retryWrites=true&w=majority&appName=quizapp`);
 
 const userSchema = new mongoose.Schema({
     username: String,
